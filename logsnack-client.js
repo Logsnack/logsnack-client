@@ -8,7 +8,15 @@ export default function(tabName, websocketURL){
         replaceConsole(){
             window.console = {
                 log : function(){
-                    lsn.log({'lsn:group' : 'default', 'color': '#1f90ff'}, ...arguments);
+                    let args = Array.from(arguments);
+                    let group = args[0];
+                    if(typeof group === "object" && Object.prototype.hasOwnProperty.call(group, 'lsn:group')){
+                        args = args.slice(1);
+                    }
+                    else{
+                        group = {'lsn:group' : 'default', 'color': '#1f90ff'};
+                    }
+                    lsn.log(group, ...args);
                 },
                 error : function(){
                     lsn.log({'lsn:group' : 'error', 'color': '#ea5b6d'}, ...arguments);
