@@ -45,9 +45,8 @@ export default function(tabName, websocketURL){
                     return line.trim();
                 })
                 ws.send(JSON.stringify({ 'action': 'log', 'group': Object.assign({name : group['lsn:group']}, group), 'data': args, 'stack': stack }));
-            }else{
-                console.log.call(this,  ...args);
             }
+            _console.log.call(this,  ...args);
         }
     }
     return lsn;
