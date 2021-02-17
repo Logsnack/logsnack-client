@@ -1,10 +1,14 @@
-#How to use it
+# How to use it
 
 ```javascript
 let logsnack = require('./logsnack-client/logsnack-client.js').default;
-let lsn = logsnack('My-app-name', 'ws://localhost:8090');
-lsn.connect();
-lsn.replaceConsole();
-console.error({'lsn:group' : 'my-first-group', 'color': '#ea5b6d'}, 'Text log', Math.random(), {'object': {'int': 0}, 'string': 'string'}, ['test'],1.2);
-console.log({'lsn:group' : 'my-second-group', 'color': '#ffc300'}, 'Text log', Math.random(), {'object': {'int': 0}, 'string': 'string'}, ['test'],1.2);
+
+if (process.env.NODE_ENV === 'development') {
+    let lsn = logsnack('Logsnack-project-name', 'ws://localhost:8090');
+    lsn.initialize();
+}else{
+    console.snack = console.log;
+}
+console.snack('lsn:err', 'Text log', Math.random(), { 'object': { 'int': 0 }, 'string': 'string' }, ['test'], 1.2);
+console.log('lsn:err', 'Text log', Math.random(), { 'object': { 'int': 0 }, 'string': 'string' }, ['test'], 1.2);
 ```
