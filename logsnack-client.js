@@ -1,4 +1,4 @@
-import JsonViewer from "@/logger/json-viewer/json-viewer.min";
+import JsonViewer from './json-viewer/json-viewer.min';
 import {favicons, styles} from './styles.default';
 require('./assets/css/toast.css');
 function createSnack (style, args) {
