@@ -1,5 +1,7 @@
-import JsonViewer from './json-viewer/json-viewer.min';
+import JsonViewer from './json-viewer/json-viewer';
 import {favicons, styles} from './styles.default';
+require('./json-viewer/scss/types.css');
+require('./json-viewer/scss/style.css');
 require('./assets/css/toast.css');
 function createSnack (style, args) {
     //CC: Container creation
@@ -19,7 +21,7 @@ function createSnack (style, args) {
 
     //SC : Snack creation
     snack.innerHTML = `
-                <div class="logsnack-content" id="${id + '-content'}">
+                <div class="logsnack-content" style="${style.style}" id="${id + '-content'}">
                     <div class="logsnack-left">${style.prefix}</div>
                     <div class="logsnack-center">${args[1] ? args[1] : args[0]}</div>
                     <div class="logsnack-right" id="${id + '-close'}">×</div>
@@ -31,21 +33,19 @@ function createSnack (style, args) {
                 `;
     snack.id = id;
     snack.className = 'logsnack';
-    snack.setAttribute('style', style.style);
+    // snack.setAttribute('style', style.style);
     let snacks = document.getElementsByClassName('logsnack');
     let last = snacks[snacks.length - 1];
     let lastpos = (document.body.offsetHeight - (last ? last.offsetTop : document.body.offsetHeight));
-    snack.style.setProperty('--bottom', (lastpos) + 12 + 'px');
+    // snack.style.setProperty('--bottom', (lastpos) + 12 + 'px');
     container.appendChild(snack);
     //END-SC
-
+    console.log(args[0], typeof args[0]);
     if (typeof args[0] === 'object') {
-        new JsonViewer({
-            container: document.querySelector(`#${id} .logsnack-jsonviewer`),
-            data: JSON.stringify(args[0]),
-            theme: 'dark',
-            expand: false
-        })
+        new JsonViewer(args[0], document.querySelector(`#${id} .logsnack-jsonviewer`))
+    }
+    else{
+        document.querySelector(`#${id} .logsnack-jsonviewer`).innerHTML = args[0];
     }
 
     let createTimeout = function () {
@@ -74,23 +74,23 @@ function createSnack (style, args) {
         }
     });
     document.getElementById(id + '-content').addEventListener('click', function () {
-        if ((typeof args[0] === 'object')) {
-            if (snack.classList.contains('logsnack-modal')) {
-                snack.classList.remove('logsnack-modal');
-                if (layout.classList.contains('logsnack-layout-visible')) {
-                    layout.classList.remove('logsnack-layout-visible');
-                }
-                timeout = createTimeout();
-            } else {
-                snack.classList.add('logsnack-modal');
-                if (!layout.classList.contains('logsnack-layout-visible')) {
-                    layout.classList.add('logsnack-layout-visible');
-                }
-                if (timeout !== false) {
-                    clearTimeout(timeout);
-                }
+
+        if (snack.classList.contains('logsnack-modal')) {
+            snack.classList.remove('logsnack-modal');
+            if (layout.classList.contains('logsnack-layout-visible')) {
+                layout.classList.remove('logsnack-layout-visible');
+            }
+            timeout = createTimeout();
+        } else {
+            snack.classList.add('logsnack-modal');
+            if (!layout.classList.contains('logsnack-layout-visible')) {
+                layout.classList.add('logsnack-layout-visible');
+            }
+            if (timeout !== false) {
+                clearTimeout(timeout);
             }
         }
+
     });
     document.getElementById(id + '-close').addEventListener('click', function () {
         snack.classList.add('logsnack-exit');
@@ -108,10 +108,12 @@ let argument = {
         }
         if (res.type === "object") {
             let matches = arg.toString().match(/\[object\s(?<ptype>.*)\]/);
-            res.ptype = matches.groups.ptype;
-            res.preview = res.ptype;
-            if(res.ptype === 'Object'){
-                res.preview = JSON.stringify(arg);
+            if(matches){
+                res.ptype = matches.groups.ptype;
+                res.preview = res.ptype;
+                if(res.ptype === 'Object'){
+                    res.preview = JSON.stringify(arg);
+                }
             }
         }
         return res;
@@ -156,6 +158,7 @@ export default function (logsnackProject, websocketURL) {
                     let _style = null;
                     if (argument.typeOf(args[0]).type === "string" && args[0].startsWith('lsn:')) {
                         _style = args[0].split(":")[1];
+                        args = args.splice(1);
                     }
                     let style = self.styles['log'];
                     if (_style && Object.prototype.hasOwnProperty.call(self.styles, _style)) {
@@ -192,12 +195,25 @@ export default function (logsnackProject, websocketURL) {
                 })
                 let path = stack[3].replace('webpack-internal:///./', '');
                 let trace = path.match(/.*\s(?<funcname>.*)\s\(.*\/(?<file>.*):(?<line>\d*):(?<col>\d*)\)/).groups;
+                /** replacerFunc to avoid circular JSON. @from https://careerkarma.com/blog/converting-circular-structure-to-json/ **/
+                const replacerFunc = () => {
+                    const visited = new WeakSet();
+                    return (key, value) => {
+                        if (typeof value === "object" && value !== null) {
+                            if (visited.has(value)) {
+                                return;
+                            }
+                            visited.add(value);
+                        }
+                        return value;
+                    };
+                };
                 ws.send(JSON.stringify({
                     'action': 'log',
                     'group': style,
                     'data': args,
                     'trace': trace
-                }));
+                }, replacerFunc()));
             }
             _console.log.call(this, ...args);
         }

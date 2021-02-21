@@ -1,0 +1,49 @@
+:root {
+  --lsn-type-object: #FF5AD1;
+  --lsn-type-array: #E81C1C;
+  --lsn-type-string: #ff9970;
+  --lsn-type-symbol: #FF8052;
+  --lsn-type-number: #00E88D;
+  --lsn-type-bigint: #00E88D;
+  --lsn-type-boolean: #009EFB;
+  --lsn-type-undefined: #9D67B5;
+  --lsn-type-function: #816650;
+}
+
+.lsn-type--object {
+  color: var(--lsn-type-object);
+}
+
+.lsn-type--array {
+  color: var(--lsn-type-array);
+}
+
+.lsn-type--string {
+  color: var(--lsn-type-string);
+}
+
+.lsn-type--symbol {
+  color: var(--lsn-type-symbol);
+}
+
+.lsn-type--number {
+  color: var(--lsn-type-number);
+}
+
+.lsn-type--bigint {
+  color: var(--lsn-type-bigint);
+}
+
+.lsn-type--boolean {
+  color: var(--lsn-type-boolean);
+}
+
+.lsn-type--undefined {
+  color: var(--lsn-type-undefined);
+}
+
+.lsn-type--function {
+  color: var(--lsn-type-function);
+}
+
+/*# sourceMappingURL=types.css.map */

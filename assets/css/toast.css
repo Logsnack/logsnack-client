@@ -5,6 +5,7 @@
     right: 0;
     top: 0;
     position: fixed;
+    padding: 6px ;
     display: flex;
     flex-direction: column-reverse;
     z-index: 100;
@@ -16,29 +17,25 @@
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(51, 51, 51);
+    background: #1E2232;
     display: none;
     transition: opacity .2s linear;
 }
 #logsnack-layout.logsnack-layout-visible{
     display: block;
-    opacity: .8;
+    opacity: .1;
 }
 .logsnack {
-    height: 64px;
+    height: 32px;
     pointer-events: all;
     vertical-align: middle;
     width: 320px;
-    background-color: #333333;
+    background-color: #1E2232;
     color: #FFFFFF;
     text-align: center;
     border-radius: 8px !important;
-    padding: 16px 16px;
-    /*position: fixed;*/
-    /*right: 12px;*/
-    /*bottom: 12px;*/
     z-index: 100;
-    margin: 12px;
+    margin: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,13 +48,10 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    height: 64px;
+    height: 32px;
+    border-radius: 6px !important;
+    padding: 16px 16px !important;
     cursor: pointer;
-}
-
-.jv-dark-con{
-    padding: 12px;
-    margin: 4px;
 }
 
 .logsnack .logsnack-left {
@@ -87,10 +81,12 @@
 /* MODAL */
 .logsnack.logsnack-modal {
     position: fixed;
-    width: 50%;
-    right: 25%;
-    bottom: 10%;
-    height: 80%;
+    width: calc(50% - 356px);
+    right: 340px;
+    bottom: 6px;
+    min-height: 50%;
+    max-height: 80%;
+    padding: 4px !important;
     /*width: 50%;*/
     /*left: 25%;*/
     /*top: 10%;*/
@@ -99,6 +95,11 @@
     display: flex;
     flex-direction: column;
     transition: all ease .2s;
+}
+.logsnack.logsnack-modal .logsnack-content{
+    width: 50%;
+    margin: 5px 0 8px 0;
+
 }
 
 .logsnack .logsnack-modalcontent {
@@ -112,6 +113,11 @@
     overflow: hidden;
     border-radius: 4px;
     text-align: left;
+}
+.logsnack-jsonviewer{
+    background: #151823;
+    height: 100%;
+    padding: 5px;
 }
 
 /* Animations to fade the snackbar in and out */
