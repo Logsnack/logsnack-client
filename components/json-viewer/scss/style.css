@@ -15,7 +15,12 @@
   display: flex;
   align-items: center;
   opacity: 0.8;
-  transition: all ease-in-out 250ms;
+  transition: all linear 150ms;
+}
+.lsn-json-viewer .lsn-json-entry-container .lsn-json-entry:hover.lsn-type--object.lsn-type--object {
+  opacity: 1;
+  margin: 5px 0;
+  font-size: 15px;
 }
 .lsn-json-viewer .lsn-json-entry-container .lsn-json-entry div[class^=lsn-json-entry] {
   display: inline-flex;
@@ -28,7 +33,7 @@
   content: ":";
 }
 .lsn-json-viewer .lsn-json-entry-container .lsn-json-entry .lsn-json-entry-center {
-  max-width: 256px;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -39,11 +44,6 @@
 }
 .lsn-json-viewer .lsn-json-entry-container .lsn-json-entry.lsn-type--object {
   cursor: pointer;
-}
-.lsn-json-viewer .lsn-json-entry-container .lsn-json-entry.lsn-type--object:hover {
-  opacity: 1;
-  margin: 5px 0;
-  font-size: 18px;
 }
 .lsn-json-viewer .lsn-json-entry-container .lsn-json-entry.lsn-type--string {
   color: #ff9970;
@@ -67,3 +67,5 @@
   opacity: 0.5;
   border: none;
 }
+
+/*# sourceMappingURL=style.css.map */

@@ -94,6 +94,7 @@ function render (data, container, i){
 }
 export default function (data, container) {
     // let data = JSON.parse(_data);
+    container.innerHTML = "";
     let viewerElement = document.createElement('div');
     viewerElement.classList.add('lsn-json-viewer');
     // render(data, viewerElement, 0);
