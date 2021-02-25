@@ -156,6 +156,11 @@ let snackConsole = function () {
             if (snack.parsed.type === "object") {
                 new JsonViewer(snack.data, snackEl.querySelector('.lsn-snack-start'))
             }
+            if(snack.parsed.type === "string"){
+                //Use this to display HTML as HTML not interpreted.
+                snackEl.querySelector('.lsn-snack-start').innerText = snack.parsed.string;
+            }
+
 
             snackStackEl.appendChild(snackEl);
             snackStackEl.lastElementChild.scrollIntoView();
