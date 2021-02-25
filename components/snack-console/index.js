@@ -68,7 +68,7 @@ function getTrace () {
     if (stack.length >= 5) { //? 5 is the depth to get here so 4 is the initial call
         let path = stack[4].replace('webpack-internal:///.', '');
         // let trace = path.match(/.*\s(?<funcname>.*)\s\(.*\/(?<file>.*)(\?.*?){0,1}:(?<line>\d*):(?<col>\d*)\)/);
-        let trace = path.match(/.*\/(?<file>.*)(\?.*?){0,1}:(?<line>\d*):(?<col>\d*)/);
+        let trace = path.match(/.*\/(?<file>.*?)(\?.*?){0,1}:(?<line>\d*):(?<col>\d*)/);
         if (trace && Object.prototype.hasOwnProperty.call(trace, 'groups')) {
             return trace.groups;
         }
