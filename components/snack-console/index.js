@@ -158,6 +158,7 @@ let snackConsole = function () {
             }
 
             snackStackEl.appendChild(snackEl);
+            snackStackEl.lastElementChild.scrollIntoView();
         }
     }
 }
